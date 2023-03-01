@@ -1,0 +1,226 @@
+import 'package:flutter/material.dart';
+import 'package:wij_land/screens/farm_networks/farms/farm_screens/Boerenwijzer/widget/meadow_info_widget.dart';
+
+import '../../../../../../app_common_widgets/custom_text.dart';
+import '../../../../../../app_common_widgets/real_check_box_widget.dart';
+import '../../../../../../utils/functions.dart';
+import '../../../../../../utils/responsive.dart';
+import '../../../../../../utils/styles.dart';
+
+class MeadowBirdsWidget extends StatefulWidget {
+  const MeadowBirdsWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<MeadowBirdsWidget> createState() => _MeadowBirdsWidgetState();
+}
+
+class _MeadowBirdsWidgetState extends State<MeadowBirdsWidget> {
+  int countNkg = 0;
+  int countNH3Kg = 0;
+  List<bool> blockList = <bool>[];
+
+  @override
+  void initState() {
+    super.initState();
+    blockList = List.filled(6, false);
+  }
+
+  List<String> blocktextList = [
+    "Block 1",
+    "Block 2",
+    "Block 3",
+    "Block 4",
+    "Block 5",
+    "Block 6",
+    "Block 7",
+  ];
+  List<String> textList = [
+    "p01",
+    "p02",
+    "p03",
+    "p04",
+    "p05",
+    "p06",
+    "p07",
+  ];
+  List<Color> blockColors = <Color>[
+    third,
+    lightGreen,
+    Colors.pink,
+    yellow,
+    primary,
+    Colors.purple,
+  ];
+  bool _onWebChecked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        RealCheckBoxWidget(
+          value: _onWebChecked,
+          onChanged: (value) {
+            setState(
+              () {
+                _onWebChecked = value ?? false;
+              },
+            );
+          },
+          Labeltext: "Apply answers to all parcel,with option to edit",
+        ),
+        SizedBox(
+          height: 15,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15),
+          child: SizedBox(
+            height: 35 * 30,
+            width: getWidth(context),
+            child: ListView(
+              shrinkWrap: false,
+              scrollDirection: Axis.horizontal,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                          border: Border(
+                              left: BorderSide(
+                                  color: Colors.transparent, width: 8))),
+                      child: MeadowBirdsInfoWidget(
+                        first: true,
+                        child: Container(),
+                        parcelLevel: "Parcel Level",
+                        mowing: "Mowing?",
+                        mowingDate: "If mowing date?",
+                        protection: "Nest protection",
+                        plasZone: "Plas-dras zone",
+                        size: !Responsive.isDesktop(context)
+                            ? getWidth(context) / 2
+                            : !Responsive.isDesktop(context)
+                                ? getWidth(context) / 5
+                                : !Responsive.isDesktop(context)
+                                    ? getWidth(context) / 6
+                                    : getWidth(context) / 8,
+                      ),
+                    ),
+                    for (int i = 0; i < 6; i++)
+                      Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                                border: Border(
+                                    left: BorderSide(
+                                        color: Colors.transparent, width: 8))),
+                            child: MeadowBirdsInfoWidget(
+                              second: false,
+                              first: false,
+                              child: Align(
+                                alignment: Alignment.topLeft,
+                                child: Checkbox(
+                                    checkColor: Colors.white,
+                                    activeColor: Colors.green,
+                                    shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            color: Colors.white),
+                                        borderRadius: BorderRadius.circular(5)),
+                                    value: blockList[i],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        blockList[i] = !blockList[i];
+                                      });
+                                    }),
+                              ),
+                              parcelLevel: "",
+                              mowing: "",
+                              mowingDate: "",
+                              protection: "",
+                              plasZone: "",
+                              size: !Responsive.isDesktop(context)
+                                  ? getWidth(context) / 2
+                                  : !Responsive.isDesktop(context)
+                                      ? getWidth(context) / 5
+                                      : !Responsive.isDesktop(context)
+                                          ? getWidth(context) / 6
+                                          : getWidth(context) / 8,
+                              blockChild: Wrap(
+                                children: [
+                                  Container(
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                        color: blockColors[i],
+                                        border: Border.all(
+                                            color: Colors.black, width: 2)),
+                                  ),
+                                  CustomText(text: blocktextList[i])
+                                ],
+                              ),
+                            ),
+                          ),
+                          blockList[i]
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          left: BorderSide(
+                                              color: third, width: 8))),
+                                  child: Column(
+                                    children: [
+                                      for (int i = 0; i < 2; i++)
+                                        MeadowBirdsInfoWidget(
+                                          second: true,
+                                          first: false,
+                                          child: Container(),
+                                          parcelLevel: "",
+                                          mowing: "",
+                                          mowingDate: "",
+                                          protection: "",
+                                          plasZone: "",
+                                          size: !Responsive.isDesktop(context)
+                                              ? getWidth(context) / 2
+                                              : !Responsive.isDesktop(context)
+                                                  ? getWidth(context) / 5
+                                                  : !Responsive.isDesktop(
+                                                          context)
+                                                      ? getWidth(context) / 6
+                                                      : getWidth(context) / 8,
+                                          blockChild: Wrap(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    horizontal: 10),
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                    color: lightGreen,
+                                                    border: Border.all(
+                                                        color: Colors.black,
+                                                        width: 2)),
+                                              ),
+                                              CustomText(text: textList[i])
+                                            ],
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                )
+                              : Container()
+                        ],
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
